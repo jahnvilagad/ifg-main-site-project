@@ -25937,7 +25937,7 @@ input[type=search]::-webkit-search-results-decoration {
 
 .header {
 	position: relative;
-	z-index: 1030
+	z-index: 9999
 }
 
 .navbar {
@@ -27525,7 +27525,7 @@ a.card-body:hover {
 	}
 
 	.card-horizontal .card-img-top {
-		border-radius: 0;
+		border-radius: calc(1rem - 1px);
 		border-top-left-radius: calc(1rem - 1px);
 		border-bottom-left-radius: calc(1rem - 1px)
 	}
@@ -29263,7 +29263,8 @@ _:-ms-lang(x),
 	justify-content: space-between;
 	align-items: center;
 	flex-shrink: 0;
-	padding: 1.25rem 1.5rem
+	padding: 1.25rem 1.5rem;
+	z-index: 9999;
 }
 
 .bg-dark .offcanvas-header,

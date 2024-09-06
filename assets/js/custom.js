@@ -65,6 +65,7 @@ $(document).ready(function () {
   const swiper = new Swiper('.swiper-container', {
     slidesPerView: 2,
     loop: true,
+    arrows: true,
     dots: true,
     pagination: {
       el: '.swiper-pagination',
@@ -122,20 +123,6 @@ $(document).ready(function () {
 
 });
 
-// $(document).ready(function () {
-//   $('.slider-accreditations').slick({
-//     centerMode: true,
-//     slidesToShow: 3,
-//     dots: false,
-//     prevArrow: $('.prev4'),
-//     nextArrow: $('.next4'),
-//     infinite: true,
-//     autoplay: true,
-//     autoplaySpeed: 5000,
-//     slidesToScroll: 1,
-//   });
-// });
-
 
 $(document).ready(function () {
   $('.university').slick({
@@ -168,21 +155,6 @@ $(document).ready(function () {
     autoplay: true,
   });
 });
-// });
-// $(document).ready(function () {
-//   $('.university').slick({
-//     centerMode: true,
-//     slidesToShow: 3,
-//     dots: false,
-//     prevArrow: $('.prev4'),
-//     nextArrow: $('.next4'),
-//     infinite: true,
-//     autoplay: true,
-//     autoplaySpeed: 5000,
-//     slidesToScroll: 1,
-//     arrows:true,
-//   });
-// });
 
 
 //ifg advantage slider
@@ -222,30 +194,25 @@ $(document).ready(function () {
 
 
 
-if (window.location.pathname=='/accommodation-in-abu-dhabi.html') {
-document.addEventListener('DOMContentLoaded', function () {
-  // Initialize LightGallery
-  const lightGalleryElement = document.getElementById('lightgallery');
-  lightGallery(lightGalleryElement, {
-    plugins: [lgThumbnail, lgZoom],
-    thumbnail: true,
-    animateThumb: false,
-    showThumbByDefault: false
-  });
+if (window.location.pathname == '/accommodation-in-abu-dhabi.html') {
+  document.addEventListener('DOMContentLoaded', function () {
+    // Initialize LightGallery
+    const lightGalleryElement = document.getElementById('lightgallery');
+    lightGallery(lightGalleryElement, {
+      plugins: [lgThumbnail, lgZoom],
+      thumbnail: true,
+      animateThumb: false,
+      showThumbByDefault: false
+    });
 
-  // Trigger LightGallery when the single image is clicked
-  document.getElementById('triggerImage').addEventListener('click', function () {
-    lightGalleryElement.querySelector('a').click();
+    // Trigger LightGallery when the single image is clicked
+    document.getElementById('triggerImage').addEventListener('click', function () {
+      lightGalleryElement.querySelector('a').click();
+    });
   });
-});
 }
 
 
-// if (window.location.pathname=='/') {
-// $(document).ready(function () {
-//   $(window).scrollTop($target.offset().top - 100)
-// });
-// }
 
 if (('.page_hero-talents_items').length) {
   var myVar = setInterval(() => {
@@ -347,32 +314,150 @@ $('a[href*="#become-a-partner-center"]').on('click', function (e) {
 })
 
 
+$(document).ready(function () {
+  function AddReadMore() {
+    //This limit you can set after how much characters you want to show Read More.
+    var carLmt = 300;
+    // Text to show when text is collapsed
+    var readMoreTxt = " ...read more";
+    // Text to show when text is expanded
+    var readLessTxt = " read less";
 
-jQuery(function ($) {
-  var show_char = 280;
-  var ellipses = "... ";
-  var content = $(".text-block").text();
 
-  if (content.length > show_char) {
-    var a = content.substr(0, show_char);
-    var b = content.substr(show_char);
-    var html = a + "<span class='truncated'>" + ellipses + "</span><span class='truncated' style='display:none'>" + b + "</span> <a class='read-more text-primary' href='#'>Read more</a>"; // move read more outside
-    $(".text-block").html("<p>" + html + "</p>");
+    //Traverse all selectors with this class and manupulate HTML part to show Read More
+    $(".add-read-more").each(function () {
+      if ($(this).find(".first-section").length)
+        return;
+
+      var allstr = $(this).text();
+      if (allstr.length > carLmt) {
+        var firstSet = allstr.substring(0, carLmt);
+        var secdHalf = allstr.substring(carLmt, allstr.length);
+        var strtoadd = firstSet + "<span class='second-section'>" + secdHalf +
+          "</span><span class='read-more text-primary'  title='Click to Show More'>" + readMoreTxt +
+          "</span><span class='read-less text-primary' title='Click to Show Less'>" + readLessTxt + "</span>";
+        $(this).html(strtoadd);
+      }
+    });
+
+    //Read More and Read Less Click Event binding
+    $(document).on("click", ".read-more,.read-less", function () {
+      $(this).closest(".add-read-more").toggleClass("show-less-content show-more-content");
+    });
   }
 
-  $(".text-block").on("click", ".read-more", function (e) {
-    e.preventDefault();
-    var $this = $(this);
-    $this.text() == "Read more" ? $this.text("Read less") : $this.text("Read more");
-    $this.siblings(".truncated").toggle();
+  AddReadMore();
+});
+
+
+
+document.addEventListener('DOMContentLoaded', function () {
+  const openMainMenuBtns  = document.querySelectorAll('.navbar-toggler');
+  const openNestedMenuBtns = document.querySelectorAll('.sub-nav');
+
+  const closeMainMenuBtns  = document.querySelectorAll('.btn-close');
+  const closeNestedMenuBtns  = document.querySelectorAll('.btn-close');
+
+  const mainMenu = document.querySelector('.offcanvas-bottom');
+  const nestedMenu = document.querySelector('.offcanvas-start');
+
+  // Function to close all offcanvas menus
+  function closeAllMenus() {
+    mainMenu.classList.remove('show');
+    nestedMenu.classList.remove('show');
+  }
+
+  // Open main menu (for each button that opens main menu)
+  openMainMenuBtns.forEach(button => {
+    button.addEventListener('click', function () {
+      closeAllMenus();  // Close any open menu before opening the main menu
+      mainMenu.classList.add('show');
+    });
+  });
+
+  // Open nested menu (for each button that opens nested menu)
+  openNestedMenuBtns.forEach(button => {
+    button.addEventListener('click', function () {
+      mainMenu.classList.remove('show'); // Close main menu
+      nestedMenu.classList.add('show');  // Open nested menu
+    });
+  });
+
+  // Close main menu (for each button that closes main menu)
+  closeMainMenuBtns.forEach(button => {
+    button.addEventListener('click', function () {
+      mainMenu.classList.remove('show');
+    });
+  });
+
+  // Close nested menu (for each button that closes nested menu)
+  closeNestedMenuBtns.forEach(button => {
+    button.addEventListener('click', function () {
+      nestedMenu.classList.remove('show');
+    });
+  });
+
+  // Close any menu when clicking outside
+  window.addEventListener('click', function (event) {
+    if (!mainMenu.contains(event.target) && !nestedMenu.contains(event.target) &&
+        !event.target.classList.contains('navbar-toggler') && 
+        !event.target.classList.contains('sub-nav')) {
+      closeAllMenus(); // Close all if clicking outside
+    }
   });
 });
 
 
 
 
-// $(document).ready(function(){
-//   $(".btn-close").click(function(){
-//     $(".offcanvas , .offcanvas-backdrop").toggle("d-none");
-//   });
-// });
+
+$(document).ready(function () {
+  $(".pop-card-down-arrow").click(function () {
+    $(".pop-card-wrapper").slideToggle("slow", function () {
+      // Toggle the icon after the slideToggle animation completes
+      let icon = $(".pop-card-down-arrow i");
+      if ($(".pop-card-wrapper").is(":visible")) {
+        icon.removeClass("bi bi-chevron-up").addClass("bi bi-chevron-down");
+      } else {
+        icon.removeClass("bi bi-chevron-down").addClass("bi bi-chevron-up");
+      }
+    });
+  });
+});
+
+
+
+
+
+
+/*chat slider js start */
+
+
+// For the first slider
+if (document.querySelectorAll('.page_hero-talents_items').length) {
+  var myVar1 = setInterval(() => {
+    let parent = document.querySelector('.page_hero-talents_items');
+    if (parent) {
+      let children = parent.children;
+      let changeItem = children[0];
+      parent.removeChild(changeItem);
+      parent.appendChild(changeItem);
+    }
+  }, 3000);
+}
+
+// For the second slider
+if (document.querySelectorAll('.page_hero-talents_items2').length) {
+  var myVar2 = setInterval(() => {
+    let parent = document.querySelector('.page_hero-talents_items2');
+    if (parent) {
+      let children = parent.children;
+      let changeItem = children[0];
+      parent.removeChild(changeItem);
+      parent.appendChild(changeItem);
+    }
+  }, 3000);
+}
+
+
+$('.btn-close').click(function () { $('video').each(function () { $(this).get(0).pause(); }) });
